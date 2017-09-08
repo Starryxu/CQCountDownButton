@@ -12,6 +12,9 @@
 
 @interface SecondViewController ()
 
+/** 倒计时按钮 */
+@property (nonatomic, strong) CQCountDownButton *countDownButton;
+
 @end
 
 @implementation SecondViewController
@@ -20,23 +23,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    __block CQCountDownButton *countDownButton = [[CQCountDownButton alloc] initWithFrame:CGRectMake(90, 90, 150, 30) duration:10 countDownStart:^{
+    self.countDownButton = [[CQCountDownButton alloc] initWithFrame:CGRectMake(90, 90, 150, 30) duration:10 countDownStart:^{
         //------- 倒计时开始 -------//
         NSLog(@"倒计时开始");
     } countDownUnderway:^(NSInteger restCountDownNum) {
         //------- 倒计时进行中 -------//
-        [countDownButton setTitle:[NSString stringWithFormat:@"再次获取(%ld秒)", restCountDownNum] forState:UIControlStateNormal];
+        [self.countDownButton setTitle:[NSString stringWithFormat:@"再次获取(%ld秒)", restCountDownNum] forState:UIControlStateNormal];
     } countDownCompletion:^{
         //------- 倒计时结束 -------//
-        [countDownButton setTitle:@"点击获取验证码" forState:UIControlStateNormal];
-        countDownButton.enabled = YES;
+        [self.countDownButton setTitle:@"点击获取验证码" forState:UIControlStateNormal];
+        self.countDownButton.enabled = YES;
         NSLog(@"倒计时结束");
     }];
-    [self.view addSubview:countDownButton];
-    [countDownButton setTitle:@"点击获取验证码" forState:UIControlStateNormal];
-    [countDownButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [countDownButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
-    [countDownButton addTarget:self action:@selector(countDownButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.countDownButton];
+    [self.countDownButton setTitle:@"点击获取验证码" forState:UIControlStateNormal];
+    [self.countDownButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [self.countDownButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+    [self.countDownButton addTarget:self action:@selector(countDownButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 /** 倒计时按钮点击 */
